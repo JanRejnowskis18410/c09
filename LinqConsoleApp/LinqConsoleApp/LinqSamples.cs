@@ -290,29 +290,36 @@ namespace LinqConsoleApp
         /// </summary>
         public void Przyklad10Button_Click()
         {
-            //var anon = new
-            //{
-            //    Ename = "Brak wartości",
-            //    Job = (string)null,
-            //    Hiredate = (string)null
-            //};
-            //var list = new List<Object>
-            //{
+            var anon = new
+            {
+                Ename = "Brak wartości",
+                Job = (string)null,
+                Hiredate = (string)null
+            };
+            var list = new List<Object>
+            {
+                anon
+            };
 
-            //}
+            var res = Emps.Select(Emp => new { Ename = Emp.Ename, Job = Emp.Job, Hiredate = Emp.HireDate }).Union(list);
         }
 
         //Znajdź pracownika z najwyższą pensją wykorzystując metodę Aggregate()
         public void Przyklad11()
         {
-
+            var result = Emps.Aggregate((Emp1, Emp2) => Emp1.Salary > Emp2.Salary ? Emp1 : Emp2);
         }
 
         //Z pomocą języka LINQ i metody SelectMany wykonaj złączenie
         //typu CROSS JOIN
         public void Przyklad12()
         {
-
+            var result = Emps.SelectMany(Emp => Depts.Select(Dept => new
+            {
+                Imię = Emp.Ename,
+                Pensja = Emp.Salary,
+                Lokalizacja=Dept.Loc
+            }));
         }
     }
 }
